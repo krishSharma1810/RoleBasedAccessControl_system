@@ -13,6 +13,13 @@ const EmployeeDashboard = (props) => {
   const cardRefs = useRef([]); // Define cardRefs here
 
   useEffect(() => {
+    // Get previous and current clients from localStorage if available
+    const storedPrevClients = JSON.parse(localStorage.getItem('prevClients')) || [];
+    const storedCurrentClients = JSON.parse(localStorage.getItem('currentClients')) || [];
+
+    setPrevClient(storedPrevClients);
+    setcurrentClient(storedCurrentClients);
+
     const arrayCurrent = [];
     const arrayPrev = [];
     props.allclient.map((e) => {
@@ -95,6 +102,10 @@ const EmployeeDashboard = (props) => {
       if (movedClient) {
         setPrevClient((prevPrevClients) => [...prevPrevClients, movedClient]);
       }
+
+      // Save updated clients to localStorage
+      localStorage.setItem('currentClients', JSON.stringify(updatedCurrentClients));
+      localStorage.setItem('prevClients', JSON.stringify([...PrevClient, movedClient]));
 
       return updatedCurrentClients;
     });
